@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I D Manpower Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: #222;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav img {
+            height: 50px;
+            border-radius: 5px;
+        }
+        .menu {
+            list-style: none;
+            display: flex;
+        }
+        .menu li {
+            margin: 0 15px;
+        }
+        .menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .menu-icon {
+            display: none;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                background: #222;
+                width: 100%;
+                top: 60px;
+                left: 0;
+                text-align: center;
+            }
+            .menu.active {
+                display: flex;
+            }
+            .menu li {
+                padding: 10px 0;
+            }
+            .menu-icon {
+                display: block;
+            }
+        }
+
+        /* Hiring Page */
+        #hiring {
+            text-align: center;
+            padding: 50px;
+        }
+        .vacancy-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .vacancy-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .vacancy-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .apply-btn {
+            display: block;
+            margin: 15px auto 0;
+            padding: 10px 15px;
+            background: #222;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        /* Admin Page */
+        #admin {
+            text-align: center;
+            padding: 50px;
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: auto;
+        }
+        .upload-form input, .upload-form button {
+            margin: 10px 0;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <img src="I D Manpower logo.jpg" alt="logo">
+            <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+            <ul class="menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#hiring">Hiring</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#join">Join Us</a></li>
+                <li><a href="#admin">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hiring">
+        <h2>Current Vacancy</h2>
+        <div class="vacancy-cards" id="vacancy-cards">
+            <!-- Vacancy cards will be added here dynamically -->
+        </div>
+    </section>
+
+    <section id="admin">
+        <h2>Admin Panel - Upload Vacancy</h2>
+        <form class="upload-form" id="uploadForm">
+            <input type="file" id="vacancyImage" required>
+            <button type="submit">Upload</button>
+        </form>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.querySelector(".menu");
+            menu.classList.toggle("active");
+        }
+
+        document.getElementById("uploadForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let fileInput = document.getElementById("vacancyImage");
+            if (fileInput.files.length > 0) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let imgSrc = e.target.result;
+                    addVacancyCard(imgSrc);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+
+        function addVacancyCard(imgSrc) {
+            let vacancyContainer = document.getElementById("vacancy-cards");
+            let card = document.createElement("div");
+            card.classList.add("vacancy-card");
+            card.innerHTML = `<img src="${imgSrc}" alt="Vacancy">
+                              <a href="#" class="apply-btn">Apply Now</a>`;
+            vacancyContainer.appendChild(card);
+        }
+    </script>
+</body>
+</html>
+
+
